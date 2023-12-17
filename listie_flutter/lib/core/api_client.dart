@@ -16,8 +16,7 @@ class ApiClientImpl extends ApiClient {
       authenticationKeyManager: FlutterAuthenticationKeyManager(),
     )..connectivityMonitor = FlutterConnectivityMonitor();
 
-    // sessionManager = SessionManager(caller: client.modules.auth);
-    // await sessionManager.initialize();
-    throw UnimplementedError();
+    sessionManager = SessionManager(caller: client.modules.auth);
+    await sessionManager.initialize();
   }
 }
