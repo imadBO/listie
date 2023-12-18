@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listie_flutter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:listie_flutter/core/singletons.dart';
+import 'package:listie_flutter/features/dashboard/presentation/cubits/category_cubit.dart';
 import 'package:listie_flutter/utils/routes_manager.dart';
 import 'package:listie_flutter/utils/themes_manager.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SessionCubit()),
+        BlocProvider(create: (context) => CategoryCubit()),
       ],
       child: MaterialApp(
         title: 'Listie',

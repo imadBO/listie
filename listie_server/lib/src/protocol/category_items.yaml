@@ -1,0 +1,7 @@
+class: CategoryItems
+table: categoryitems
+fields:
+  userId: int
+  name: String
+  categoryId: int, parent=category
+  isChecked: bool
