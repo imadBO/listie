@@ -72,9 +72,29 @@ class CategoryCubit extends Cubit<CategoryStates> {
     try {
       await categoryItemEndpoint.toggleIsChecked(item: item);
       fetchCategoryItems();
-      emit(ToggleSuccessCategoryItemState());
+      emit(UpdateSuccessCategoryItemState());
     } catch (error) {
-      emit(ToggleFailureCategoryItemState(error: error.toString()));
+      emit(UpdateFailureCategoryItemState(error: error.toString()));
+    }
+  }
+
+  Future<void> updateItem(CategoryItems item, String newName) async {
+    try {
+      await categoryItemEndpoint.updateItem(item: item, newName: newName);
+      fetchCategoryItems();
+      emit(UpdateSuccessCategoryItemState());
+    } catch (error) {
+      emit(UpdateFailureCategoryItemState(error: error.toString()));
+    }
+  }
+
+  Future<void> deleteItem(CategoryItems item) async {
+    try {
+      await categoryItemEndpoint.deleteItem(item: item);
+      fetchCategoryItems();
+      emit(DeleteSuccessCategoryItemState());
+    } catch (error) {
+      emit(DeleteFailureCategoryItemState(error: error.toString()));
     }
   }
 }
@@ -110,9 +130,16 @@ class AddedFailureCategoryItemState extends CategoryStates {
   final String error;
 }
 
-class ToggleSuccessCategoryItemState extends CategoryStates {}
+class UpdateSuccessCategoryItemState extends CategoryStates {}
 
-class ToggleFailureCategoryItemState extends CategoryStates {
-  ToggleFailureCategoryItemState({required this.error});
+class UpdateFailureCategoryItemState extends CategoryStates {
+  UpdateFailureCategoryItemState({required this.error});
+  final String error;
+}
+
+class DeleteSuccessCategoryItemState extends CategoryStates {}
+
+class DeleteFailureCategoryItemState extends CategoryStates {
+  DeleteFailureCategoryItemState({required this.error});
   final String error;
 }
