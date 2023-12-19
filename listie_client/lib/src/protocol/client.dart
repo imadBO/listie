@@ -60,6 +60,13 @@ class _EndpointCategoryItem extends _i1.EndpointRef {
         'listAllItems',
         {'userId': userId},
       );
+
+  _i2.Future<void> toggleIsChecked({required _i4.CategoryItems item}) =>
+      caller.callServerEndpoint<void>(
+        'categoryItem',
+        'toggleIsChecked',
+        {'item': item},
+      );
 }
 
 class _EndpointExample extends _i1.EndpointRef {

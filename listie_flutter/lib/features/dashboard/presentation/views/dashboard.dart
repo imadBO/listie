@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listie_client/listie_client.dart';
 import 'package:listie_flutter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:listie_flutter/features/dashboard/presentation/cubits/category_cubit.dart';
+import 'package:listie_flutter/utils/colors_manager.dart';
 import 'package:listie_flutter/utils/strings_manager.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -72,24 +73,91 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(
-          title: Text(category.name),
-          trailing: IconButton(
-            onPressed: () {
-              categoryCubit.addItemToCategory();
-            },
-            icon: const Icon(Icons.add),
+        DecoratedBox(
+          decoration: const BoxDecoration(color: ColorsManager.black),
+          child: ListTile(
+            title: Text(category.name),
+            trailing: IconButton(
+              onPressed: () async {
+                final String? itemName = await showAdaptiveDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: TextFormField(
+                        controller: categoryCubit.newItemController,
+                        decoration: const InputDecoration(
+                          hintText: StringsManager.addItemLabel,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(StringsManager.cancelLabel),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(
+                              categoryCubit.newItemController.text,
+                            );
+                          },
+                          child: const Text(StringsManager.addLabel),
+                        ),
+                      ],
+                    );
+                  },
+                );
+                categoryCubit.newItemController.clear();
+                if (itemName != null && itemName.trim().isNotEmpty) {
+                  categoryCubit.addItemToCategory(itemName, category.id!);
+                }
+              },
+              icon: const Icon(Icons.add),
+            ),
           ),
         ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return Text(items[index].name);
+            return CategoryItemWidget(
+              item: items[index],
+              cubit: categoryCubit,
+            );
           },
           itemCount: items.length,
         ),
       ],
+    );
+  }
+}
+
+class CategoryItemWidget extends StatelessWidget {
+  const CategoryItemWidget({
+    super.key,
+    required this.item,
+    required this.cubit,
+  });
+
+  final CategoryItems item;
+  final CategoryCubit cubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(item.name),
+      trailing: Checkbox.adaptive(
+        value: item.isChecked,
+        onChanged: (val) {
+          cubit.toggleIsChecked(item);
+        },
+      ),
+      dense: true,
+      visualDensity: VisualDensity.compact,
     );
   }
 }
