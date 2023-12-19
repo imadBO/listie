@@ -35,6 +35,16 @@ class CategoryItemEndpoint extends Endpoint {
       where: (item) {
         return item.userId.equals(userId);
       },
+      orderBy: ColumnInt('id'),
     );
+  }
+
+  Future<void> toggleIsChecked(
+    Session session, {
+    required CategoryItems item,
+  }) async {
+    item.isChecked = !item.isChecked;
+    // CategoryItems.update(session, item);
+    session.db.update(item);
   }
 }

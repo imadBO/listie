@@ -119,6 +119,25 @@ class Endpoints extends _i1.EndpointDispatch {
             userId: params['userId'],
           ),
         ),
+        'toggleIsChecked': _i1.MethodConnector(
+          name: 'toggleIsChecked',
+          params: {
+            'item': _i1.ParameterDescription(
+              name: 'item',
+              type: _i1.getType<_i5.CategoryItems>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['categoryItem'] as _i3.CategoryItemEndpoint)
+                  .toggleIsChecked(
+            session,
+            item: params['item'],
+          ),
+        ),
       },
     );
     connectors['example'] = _i1.EndpointConnector(

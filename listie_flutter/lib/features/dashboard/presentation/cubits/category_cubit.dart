@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listie_client/listie_client.dart';
 import 'package:listie_flutter/core/api_client.dart';
@@ -11,6 +12,7 @@ class CategoryCubit extends Cubit<CategoryStates> {
   bool categoriesLoading = false;
   List<Category> categories = [];
   List<CategoryItems> items = [];
+  TextEditingController newItemController = TextEditingController();
   final userId = singleton<ApiClient>().sessionManager.signedInUser?.id;
   final categoryEndpoint = singleton<ApiClient>().client.category;
   final categoryItemEndpoint = singleton<ApiClient>().client.categoryItem;
@@ -49,13 +51,13 @@ class CategoryCubit extends Cubit<CategoryStates> {
     return filterd;
   }
 
-  Future<void> addItemToCategory() async {
+  Future<void> addItemToCategory(String name, int categoryId) async {
     try {
       await categoryItemEndpoint.addItemToCategory(
         item: CategoryItems(
           userId: userId!,
-          name: "Grapes",
-          categoryId: 1,
+          name: name,
+          categoryId: categoryId,
           isChecked: false,
         ),
       );
@@ -63,6 +65,16 @@ class CategoryCubit extends Cubit<CategoryStates> {
       emit(AddedSuccessCategoryItemState());
     } catch (error) {
       emit(AddedFailureCategoryItemState(error: error.toString()));
+    }
+  }
+
+  Future<void> toggleIsChecked(CategoryItems item) async {
+    try {
+      await categoryItemEndpoint.toggleIsChecked(item: item);
+      fetchCategoryItems();
+      emit(ToggleSuccessCategoryItemState());
+    } catch (error) {
+      emit(ToggleFailureCategoryItemState(error: error.toString()));
     }
   }
 }
@@ -95,5 +107,12 @@ class AddedSuccessCategoryItemState extends CategoryStates {}
 
 class AddedFailureCategoryItemState extends CategoryStates {
   AddedFailureCategoryItemState({required this.error});
+  final String error;
+}
+
+class ToggleSuccessCategoryItemState extends CategoryStates {}
+
+class ToggleFailureCategoryItemState extends CategoryStates {
+  ToggleFailureCategoryItemState({required this.error});
   final String error;
 }
