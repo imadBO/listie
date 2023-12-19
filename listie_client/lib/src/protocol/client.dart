@@ -61,10 +61,30 @@ class _EndpointCategoryItem extends _i1.EndpointRef {
         {'userId': userId},
       );
 
-  _i2.Future<void> toggleIsChecked({required _i4.CategoryItems item}) =>
-      caller.callServerEndpoint<void>(
+  _i2.Future<bool> toggleIsChecked({required _i4.CategoryItems item}) =>
+      caller.callServerEndpoint<bool>(
         'categoryItem',
         'toggleIsChecked',
+        {'item': item},
+      );
+
+  _i2.Future<bool> updateItem({
+    required _i4.CategoryItems item,
+    required String newName,
+  }) =>
+      caller.callServerEndpoint<bool>(
+        'categoryItem',
+        'updateItem',
+        {
+          'item': item,
+          'newName': newName,
+        },
+      );
+
+  _i2.Future<bool> deleteItem({required _i4.CategoryItems item}) =>
+      caller.callServerEndpoint<bool>(
+        'categoryItem',
+        'deleteItem',
         {'item': item},
       );
 }

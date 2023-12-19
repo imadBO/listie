@@ -39,12 +39,27 @@ class CategoryItemEndpoint extends Endpoint {
     );
   }
 
-  Future<void> toggleIsChecked(
+  Future<bool> toggleIsChecked(
     Session session, {
     required CategoryItems item,
   }) async {
     item.isChecked = !item.isChecked;
-    // CategoryItems.update(session, item);
-    session.db.update(item);
+    return await session.db.update(item);
+  }
+
+  Future<bool> updateItem(
+    Session session, {
+    required CategoryItems item,
+    required String newName,
+  }) async {
+    item.name = newName;
+    return await session.db.update(item);
+  }
+
+  Future<bool> deleteItem(
+    Session session, {
+    required CategoryItems item,
+  }) async {
+    return await CategoryItems.deleteRow(session, item);
   }
 }

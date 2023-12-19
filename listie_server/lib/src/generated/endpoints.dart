@@ -138,6 +138,50 @@ class Endpoints extends _i1.EndpointDispatch {
             item: params['item'],
           ),
         ),
+        'updateItem': _i1.MethodConnector(
+          name: 'updateItem',
+          params: {
+            'item': _i1.ParameterDescription(
+              name: 'item',
+              type: _i1.getType<_i5.CategoryItems>(),
+              nullable: false,
+            ),
+            'newName': _i1.ParameterDescription(
+              name: 'newName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['categoryItem'] as _i3.CategoryItemEndpoint)
+                  .updateItem(
+            session,
+            item: params['item'],
+            newName: params['newName'],
+          ),
+        ),
+        'deleteItem': _i1.MethodConnector(
+          name: 'deleteItem',
+          params: {
+            'item': _i1.ParameterDescription(
+              name: 'item',
+              type: _i1.getType<_i5.CategoryItems>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['categoryItem'] as _i3.CategoryItemEndpoint)
+                  .deleteItem(
+            session,
+            item: params['item'],
+          ),
+        ),
       },
     );
     connectors['example'] = _i1.EndpointConnector(
