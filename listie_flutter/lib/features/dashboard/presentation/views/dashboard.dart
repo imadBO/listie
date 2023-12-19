@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listie_flutter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:listie_flutter/features/dashboard/presentation/cubits/category_cubit.dart';
+import 'package:listie_flutter/features/dashboard/presentation/widgets/account_popup_menu.dart';
 import 'package:listie_flutter/features/dashboard/presentation/widgets/category_widget.dart';
 import 'package:listie_flutter/utils/strings_manager.dart';
 
@@ -16,13 +17,9 @@ class DashboardScreen extends StatelessWidget {
         SessionCubit sessionCubit = SessionCubit.get(context);
         return Scaffold(
           appBar: AppBar(
+            title: const Text(StringsManager.dashboardLabel),
             actions: [
-              IconButton(
-                onPressed: () {
-                  sessionCubit.logout();
-                },
-                icon: const Icon(Icons.logout_outlined),
-              ),
+              AccountPopupMenu(sessionCubit: sessionCubit),
             ],
           ),
           body: BlocConsumer<CategoryCubit, CategoryStates>(

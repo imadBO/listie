@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:listie_flutter/features/auth/presentation/views/auth_screen.dart';
 import 'package:listie_flutter/features/dashboard/presentation/views/dashboard.dart';
 import 'package:listie_flutter/features/home/presentation/views/home.dart';
+import 'package:listie_flutter/features/profile/presentation/views/account.dart';
 import 'package:listie_flutter/utils/strings_manager.dart';
 
 class Routes {
   static const String homeScreen = '/';
   static const String authScreen = '/auth';
   static const String dashboardScreen = '/dashboard';
+  static const String accountScreen = '/account';
 }
 
 class RouteGenerator {
@@ -24,6 +26,10 @@ class RouteGenerator {
       case Routes.dashboardScreen:
         return MaterialPageRoute(
           builder: (context) => const DashboardScreen(),
+        );
+      case Routes.accountScreen:
+        return MaterialPageRoute(
+          builder: (context) => const AccountScreen(),
         );
       default:
         return MaterialPageRoute(

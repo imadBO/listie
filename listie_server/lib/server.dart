@@ -2,7 +2,8 @@ import 'package:serverpod/serverpod.dart';
 
 import 'package:listie_server/src/web/routes/root.dart';
 import 'package:serverpod_auth_server/module.dart' as auth;
-
+import 'package:serverpod_cloud_storage_s3/serverpod_cloud_storage_s3.dart'
+    as s3;
 import 'src/generated/protocol.dart';
 import 'src/generated/endpoints.dart';
 
@@ -44,7 +45,13 @@ void run(List<String> args) async {
       },
     ),
   );
-
+  pod.addCloudStorage(s3.S3CloudStorage(
+    serverpod: pod,
+    storageId: 'public',
+    public: true,
+    region: 'us-west-2',
+    bucket: 'listie-app-bucket',
+  ));
   // Start the server.
   await pod.start();
 }
