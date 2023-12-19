@@ -6,4 +6,7 @@ class StringsManager {
   static const String cancelLabel = 'Cancel';
   static const String addLabel = 'Add';
   static const String addItemLabel = 'Type the item\'s name to add ...';
+  static const String logoutLabel = 'Logout';
+  static const String dashboardLabel = 'Dashboard';
+  static const String myAccount = 'My account';
 }
